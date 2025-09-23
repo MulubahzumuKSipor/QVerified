@@ -1,0 +1,140 @@
+--- General Section Styling ---
+/* This styles all the main content sections for consistency */
+section {
+  padding: 80px 20px; /* Generous vertical padding, horizontal for mobile */
+  background-color: #f9f9f9; /* Soft, off-white background */
+  border-bottom: 1px solid #e0e0e0; /* Separator line between sections */
+  color: #333; /* Primary text color */
+  font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+/* Remove border from the very last section */
+section:last-of-type {
+  border-bottom: none;
+}
+
+/* Center the content and set a max-width for readability */
+section p,
+section ul {
+  max-width: 850px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+/* --- Section Heading Styling --- */
+/* This targets the 'Contact Me' h2 and any others you might add */
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Adds an accent underline that matches the header link hover */
+h2::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 3px;
+  bottom: -10px;
+  left: 20%;
+  background-color: #00aaff; /* Accent color from header */
+  border-radius: 2px;
+}
+
+/* --- Specific Section Adjustments --- */
+
+/* For Skills & Projects, left-align text for list-like readability */
+.skills p,
+.projects p {
+  text-align: left;
+}
+
+/* Styling for the Certificates list */
+.certificates ul {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  text-align: left;
+}
+
+.certificates li {
+  padding-left: 35px; /* Indent text to make room for custom bullet */
+  position: relative;
+  margin-bottom: 15px; /* Space between list items */
+}
+
+/* Custom bullet point for a modern feel */
+.certificates li::before {
+  content: "✅"; /* You can use any emoji or character */
+  position: absolute;
+  left: 0;
+  top: 0px;
+  font-size: 1.2rem;
+}
+
+/* Contact section styling */
+.contact {
+  background-color: #ffffff; /* Make the final section stand out slightly */
+  text-align: center;
+}
+
+.contact p {
+  font-size: 1.2rem; /* Make contact text slightly larger */
+  line-height: 1.9;
+}
+
+/* --- Responsive Design for Smaller Screens --- */
+@media (max-width: 768px) {
+  section {
+    padding: 50px 20px; /* Reduce padding on smaller screens */
+  }
+
+  h2 {
+    font-size: 2rem; /* Reduce heading size */
+  }
+
+  section p,
+  section ul {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  nav a {
+    font-size: 1.1rem;
+  }
+
+  .home {
+    padding: 30px;
+    text-align: center;
+  }
+
+  .top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .top h2 {
+    font-size: 2rem;
+  }
+}

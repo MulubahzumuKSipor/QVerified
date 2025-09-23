@@ -1,0 +1,21 @@
+<h1 >Collaborators</h1>
+<table class="table">
+    <thead class="thead">
+        <tr class="tr">
+            <th class="th">#</th>
+            <th class="th">Full Name</th>
+            <th class="th">Email</th>
+            <th class="th">Message</th>
+        </tr>
+    </thead>
+    <tbody class="tbody">
+        <% collaborators.forEach(function(item, index) { %>
+            <tr class="tr">
+                <td class="td"><%= index + 1 %></td>
+                <td class="td"><%= item.firstName %></td>
+                <td class="td"><%= item.email %></td>
+                <td class="td"><%= item.description %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

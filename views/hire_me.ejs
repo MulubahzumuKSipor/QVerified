@@ -1,0 +1,34 @@
+<section>
+
+    <div class="hire-me-container">
+        <% if (success && success.length > 0) { %>
+        <div class="message success">
+            <%= success[0] %>
+        </div>
+        <% } %>
+        <% if (error && error.length > 0) { %>
+            <div class="message error">
+                <%= error[0] %>
+            </div>
+        <% } %>
+        <h1>Let's build something.</h1>
+        <p>You've seen our work. We are ready to help you bring your next project to life. Please share a few details below, and we'll get back to you shortly.</p>
+
+        <form action="/connected" method="post">
+            <div>
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="reason">Tell me about your project</label>
+                <textarea id="reason" name="reason" required></textarea>
+            </div>
+            <input type="submit" value="Send Message">
+        </form>
+    </div>
+
+</section>
