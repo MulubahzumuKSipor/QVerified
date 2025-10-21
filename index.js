@@ -1,8 +1,9 @@
 const express = require("express");
-// const path = require("path");
+const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
-// const pool = require("./database/database");
+const pool = require("./database/database");
 const session = require("express-session");
+const flash = require("connect-flash");
 // const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const env = require("dotenv").config();
@@ -25,21 +26,21 @@ app.set("layout", "layout/layouts");
 app.use(express.urlencoded({ extended: true }));
 
 /* Flash Messages */
-// app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: MongoStore.create({
-//     mongoUrl: process.env.MONGODB_URL, 
-//     ttl: 14 * 24 * 60 * 60 
-//   }),
-//   cookie: {
-//     secure: false, // set to true in production with HTTPS
-//     httpOnly: true
-//   }
-// }));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URL, 
+    ttl: 14 * 24 * 60 * 60 
+  }),
+  cookie: {
+    secure: false, // set to true in production with HTTPS
+    httpOnly: true
+  }
+}));
 
-// app.use(flash());
+app.use(flash());
 
 
 /* **************************************
@@ -66,12 +67,12 @@ app.listen(port, () => {
  * Initialized database
  **************************************** */
 
-// pool.initDb((err) => {
-//   if (err) {
-//     console.error("Failed to connect to the database:", err);
-//   } else {
-//     app.listen(port, () => {
-//       console.log(`Server is running on port ${port}`);
-//     });
-//   }
-// });
+pool.initDb((err) => {
+  if (err) {
+    console.error("Failed to connect to the database:", err);
+  } else {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  }
+});

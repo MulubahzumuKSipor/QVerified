@@ -38,6 +38,7 @@ async function fetchProjects() {
 
   try {
     const response = await fetch("/projects");
+    console.log(response)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -101,6 +102,93 @@ async function fetchProjects() {
   }
 }
 
+async function fetchServices() {
+  const url = "/services";
+  const servicesContainer = document.getElementById("services-container");
+
+  if (servicesContainer) {
+    servicesContainer.innerHTML = "";
+  } else {
+    console.error("Element with ID 'services-container' not found.");
+    return; // Exit if the container isn't found
+  }
+
+  try {
+    const response = await fetch(url);
+
+    // Check for HTTP errors
+    if (!response.ok) {
+      // Use response.ok for clearer error checking (status in 200-299 range)
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+    }
+
+    const services = await response.json();
+
+    console.log("Fetched services:", services);
+
+    // Create the new table element
+    const tableElement = document.createElement("table");
+    tableElement.classList.add("services-table"); // Add a class for styling
+
+    // Create table header
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    const categoryHeader = document.createElement("th");
+    categoryHeader.textContent = "Category";
+    headerRow.appendChild(categoryHeader);
+
+    const servicesHeader = document.createElement("th");
+    servicesHeader.textContent = "Services";
+    headerRow.appendChild(servicesHeader);
+
+    thead.appendChild(headerRow);
+    tableElement.appendChild(thead); // Append thead to the tableElement
+
+    // Create table body
+    const tableBody = document.createElement("tbody");
+
+    // Populate table body with services or a "no services" message
+    if (services && Array.isArray(services) && services.length > 0) {
+      services.forEach((service) => {
+        const row = document.createElement("tr");
+
+        const categoryCell = document.createElement("td");
+        categoryCell.textContent = service.category || "N/A"; 
+        row.appendChild(categoryCell);
+
+        const servicesCell = document.createElement("td");
+        servicesCell.textContent = service.services || "N/A";
+        row.appendChild(servicesCell);
+
+        tableBody.appendChild(row); 
+      });
+    } else {
+      // Handle case where no services are returned or services is empty/not an array
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 2; 
+      cell.textContent = "No service available to display.";
+      row.appendChild(cell);
+      tableBody.appendChild(row); 
+    }
+
+    tableElement.appendChild(tableBody); 
+
+    servicesContainer.appendChild(tableElement);
+  } catch (error) {
+    console.error("Failed to fetch services:", error);
+    // Display an error message directly in the container
+    if (servicesContainer) {
+      servicesContainer.innerHTML =
+        '<p style="color: red; text-align: center;">Error loading services. Please try again later.</p>';
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchServices, fetchProjects);
+
+
 
 // Existing Navigation Toggle (assuming this is in the same script)
 document.addEventListener("DOMContentLoaded", () => {
@@ -126,129 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", fetchProjects);
 
-async function fetchSkills() {
-  const url = "/skills";
-  const skillsContainer = document.getElementById("skills-container"); 
 
-  
-  if (skillsContainer) {
-    skillsContainer.innerHTML = "";
-  } else {
-    console.error("Element with ID 'skills' not found.");
-    return; // Exit if the container isn't found
-  }
-
-  try {
-    const response = await fetch(url);
-
-    // Check for HTTP errors
-    if (!response.ok) {
-      // Use response.ok for clearer error checking (status in 200-299 range)
-      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
-    }
-
-    const skills = await response.json();
-
-    console.log("Fetched skills:", skills);
-
-    // Create the new table element
-    const tableElement = document.createElement("table");
-    tableElement.classList.add("skills-table"); // Add a class for styling
-
-    // Create table header
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-
-    const categoryHeader = document.createElement("th");
-    categoryHeader.textContent = "Category";
-    headerRow.appendChild(categoryHeader);
-
-    const skillsHeader = document.createElement("th");
-    skillsHeader.textContent = "Skills";
-    headerRow.appendChild(skillsHeader);
-
-    thead.appendChild(headerRow);
-    tableElement.appendChild(thead); // Append thead to the tableElement
-
-    // Create table body
-    const tableBody = document.createElement("tbody");
-
-    // Populate table body with skills or a "no skills" message
-    if (skills && Array.isArray(skills) && skills.length > 0) {
-      skills.forEach((skill) => {
-        const row = document.createElement("tr");
-
-        const categoryCell = document.createElement("td");
-        categoryCell.textContent = skill.category || "N/A"; 
-        row.appendChild(categoryCell);
-
-        const skillsCell = document.createElement("td");
-        skillsCell.textContent = skill.skills || "N/A"; 
-        row.appendChild(skillsCell);
-
-        tableBody.appendChild(row); 
-      });
-    } else {
-      // Handle case where no skills are returned or skills is empty/not an array
-      const row = document.createElement("tr");
-      const cell = document.createElement("td");
-      cell.colSpan = 2; 
-      cell.textContent = "No skills available to display.";
-      row.appendChild(cell);
-      tableBody.appendChild(row); 
-    }
-
-    tableElement.appendChild(tableBody); 
-
-    skillsContainer.appendChild(tableElement);
-  } catch (error) {
-    console.error("Failed to fetch skills:", error);
-    // Display an error message directly in the container
-    if (skillsContainer) {
-      skillsContainer.innerHTML =
-        '<p style="color: red; text-align: center;">Error loading skills. Please try again later.</p>';
-    }
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchSkills, fetchProjects);
-
-async function fetchAndDisplayCertificates() {
-  const certificatesDiv = document.getElementById('certificates');
-  if (!certificatesDiv) {
-    console.error('The div with id "certificates" was not found.');
-    return;
-  }
-
-  try {
-    const response = await fetch('/certificates'); 
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const certificates = await response.json();
-
-    const ul = document.createElement('ul');
-
-    certificates.forEach(cert => {
-      const li = document.createElement('li');
-      li.textContent = `${cert.certificate} – ${cert.institution}`;
-      ul.appendChild(li);
-    });
-
-    certificatesDiv.appendChild(ul);
-
-  } catch (error) {
-    console.error('Failed to fetch certificates:', error);
-    // Optionally, display an error message to the user
-    certificatesDiv.textContent = 'Failed to load certificates. Please try again later.';
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchAndDisplayCertificates);
 
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
